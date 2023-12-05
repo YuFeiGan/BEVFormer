@@ -9,7 +9,8 @@ from __future__ import division
 import argparse
 import copy
 import mmcv
-import os
+import os,sys
+sys.path.append('/home/ubuntu/bev/BEVFormer')
 import time
 import torch
 import warnings

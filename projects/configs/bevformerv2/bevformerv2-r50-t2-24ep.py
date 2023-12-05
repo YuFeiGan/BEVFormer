@@ -18,7 +18,7 @@ class_names = [
     'pedestrian', 'traffic_cone', 'trailer', 'truck'
 ]
 dataset_type = 'CustomNuScenesDatasetV2'
-data_root = 'data/nuscenes/'
+data_root = 'data/waymo/'
 # Input modality for nuScenes dataset, this is consistent with the submission
 # format which requires the information in input_modality.
 input_modality = dict(

@@ -1,0 +1,29 @@
+FROM continuumio/miniconda3:master
+# FROM lightwheel.tencentcloudcr.com/syndata/miniconda3:v0.0.1
+
+RUN conda install python=3.8 pip -y
+RUN pip install torch==1.9.1+cu111 torchvision==0.10.1+cu111 torchaudio==0.9.1 -f https://download.pytorch.org/whl/torch_stable.html
+RUN conda update -n base -c defaults conda
+RUN apt-get update \
+    && apt-get install -y libc-dev ffmpeg libsm6 libxext6 git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN  apt-get install gcc-6.2 -y
+# RUN conda install -c omgarcia gcc -y
+
+RUN pip install mmcv-full==1.4.0 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.9.0/index.html
+RUN pip install mmdet==2.14.0
+RUN pip install mmsegmentation==0.14.1
+# ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0 8.6+PTX" \
+#     TORCH_NVCC_FLAGS="-Xfatbin -compress-all" \
+#     CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
+#     FORCE_CUDA="1"
+
+COPY mmdetection3d /home/ubuntu/bev/BEVFormer/mmdetection3d 
+RUN cd /home/ubuntu/bev/BEVFormer/mmdetection3d \
+    && pip install --no-cache-dir -e .
+
+RUN pip install einops fvcore seaborn iopath==0.1.9 timm==0.6.13  typing-extensions==4.5.0 pylint ipython==8.12  numpy==1.19.5 matplotlib==3.5.2 numba==0.48.0 pandas==1.4.4 scikit-image==0.19.3 setuptools==59.5.0
+RUN python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
+
